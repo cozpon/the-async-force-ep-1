@@ -22,77 +22,42 @@ darthyRequest.send();
 let hanRequest = new XMLHttpRequest();
 hanRequest.addEventListener("load", function(){
   let hanSolo = JSON.parse(this.responseText);
-  console.log(hanSolo);
   document.getElementById("person14Name").innerHTML = hanSolo.name;
-
 
   let species = new XMLHttpRequest();
 species.addEventListener("load", function(){
   let species = JSON.parse(this.responseText);
-  console.log(species);
   document.getElementById("person14Species").innerHTML = species.name;
-});
+  });
   species.open("GET", hanSolo.species);
   species.send();
-
 });
-
 hanRequest.open("GET", "http://swapi.co/api/people/14/");
 hanRequest.send();
 
 
 
+function createList(input){
+  var x = document.createElement("LI");
+  var t = document.createTextNode(input);
+  x.appendChild(t);
+  document.getElementById("filmList").appendChild(x);
+}
 
 
 
+let filmsRequest = new XMLHttpRequest();
+filmsRequest.addEventListener("load", function(){
+  let sWFilms = JSON.parse(this.responseText).results;
 
+  sWFilms.map(function(film){
+    createList(film.title);
+  });
 
+ console.log(sWFilms.planets);
 
-//darth vader home world
+});
+filmsRequest.open("GET", "http://swapi.co/api/films/");
+filmsRequest.send();
 
-// oReq2.homeWorld = function(){
-//   var planet = JSON.parse(this.responseText);
-//   document.getElementById("person4HomeWorld").innerHTML = planet.homeworld;
-// };
-
-// oReq2.open("GET", "http://swapi.co/api/planets/1/");
-// oReq.send();
-
-
-
-
-
-// var person4Section = document.getElementById('person4');
-// var person4Name = document.getElementById('person4Name');
-// var person4HomeWorld = document.getElementById('person4HomeWorld');
-
-
-// function reqListener () {
-//   var person4 = JSON.parse(this.responseText);
-//   //console.log(test.name);
-//   person4Section.innerHTML = person4.name;
-
-// }
-
-// var oReq = new XMLHttpRequest();
-// oReq.addEventListener("load", reqListener);
-// oReq.open("GET", "http://swapi.co/api/people/4/");
-// oReq.send();
-
-
-
-
-
-
-// // han solo
-// var oReq = new XMLHttpRequest();
-// oReq.addEventListener("load", reqListener);
-// oReq.open("GET", "http://swapi.co/api/people/14/");
-// oReq.send();
-
-// films
-// var oReq = new XMLHttpRequest();
-// oReq.addEventListener("load", reqListener);
-// oReq.open("GET", "http://swapi.co/api/films/");
-// oReq.send(document.getElementById(films));
 
