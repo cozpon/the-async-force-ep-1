@@ -11,11 +11,11 @@ darthyRequest.addEventListener("load", function(){
     document.getElementById("person4HomeWorld").innerHTML = planetName.name;
   });
   // second request
-// passing in darthVader HomeWorld Object (which is a link) as assignment
+  // passing in darthVader HomeWorld Object (which is a link) as assignment
   planet.open("GET", darthVader.homeworld);
   planet.send();
 });
-darthyRequest.open("GET", "http://swapi.co/api/people/4/");
+darthyRequest.open("GET", "https://swapi.co/api/people/4/");
 darthyRequest.send();
 
 
@@ -24,7 +24,6 @@ let hanRequest = new XMLHttpRequest();
 hanRequest.addEventListener("load", function(){
   let hanSolo = JSON.parse(this.responseText);
   document.getElementById("person14Name").innerHTML = hanSolo.name;
-
   let species = new XMLHttpRequest();
   species.addEventListener("load", function(){
     let species = JSON.parse(this.responseText);
@@ -32,10 +31,12 @@ hanRequest.addEventListener("load", function(){
   });
 
   species.open("GET", hanSolo.species);
+
   console.log(hanSolo.species);
+
   species.send();
 });
-hanRequest.open("GET", "http://swapi.co/api/people/14/");
+hanRequest.open("GET", "https://swapi.co/api/people/14/");
 hanRequest.send();
 
 
@@ -50,18 +51,21 @@ filmsRequest.addEventListener("load", function(){
     createListFilm(movie.title);// <-- attaching to HTML
   });
   let planetsRequest = new XMLHttpRequest();
+  planetsRequest.addEventListener("load", function(){
+    let planets = JSON.parse(this.responseText);
+    films[0].planets.forEach(function(planetsFilm){
+     // Gives number of planets in the movie
+      createListPlanet(planets.name);
 
-  let planets = JSON.parse(this.responseText);
-  // THIS GIVES ME EACH PLANETS LINK
-  films[0].planets.forEach(function(planetLink){
-    createListPlanet(planetLink);
-    console.log(planetLink);
+      console.log(planetsFilm);
      });
-    planetsRequest.open("GET", films[0].planets[0]);
-    planetsRequest.send();
+    });
 
-});
-filmsRequest.open("GET", "http://swapi.co/api/films/");
+  planetsRequest.open("GET", films[1].planets[1]);
+  planetsRequest.send();
+
+  });
+filmsRequest.open("GET", "https://swapi.co/api/films/");
 filmsRequest.send();
 
 
