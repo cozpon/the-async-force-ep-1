@@ -1,4 +1,5 @@
-// pulling from server to get darthvader
+//
+
 let darthyRequest = new XMLHttpRequest();
 darthyRequest.addEventListener("load", function(){
   let darthVader = JSON.parse(this.responseText);
@@ -47,24 +48,26 @@ hanRequest.send();
 let filmsRequest = new XMLHttpRequest();
 filmsRequest.addEventListener("load", function(){
   let films = JSON.parse(this.responseText).results;
-  films.map(function(movie){
-    createListFilm(movie.title);// <-- attaching to HTML
-  });
-  let planetsRequest = new XMLHttpRequest();
-  planetsRequest.addEventListener("load", function(){
-    let planets = JSON.parse(this.responseText);
-    films[0].planets.forEach(function(planetsFilm){
-     // Gives number of planets in the movie
+  console.log("Films: ");
+  console.log(films);
+  for(let i = 0; i < films.length; i++){
+    createListFilm(films[i].title);
+
+    let planetURLS = films[i].planets;
+
+    for(let j = 0; j < planetURLS.length; j++){
+    let planetsRequest = new XMLHttpRequest();
+    planetsRequest.addEventListener("load", function(){
+      let planets = JSON.parse(this.responseText);
       createListPlanet(planets.name);
+      });
 
-      console.log(planetsFilm);
-     });
-    });
+      planetsRequest.open("GET", planetURLS[j]);
+      planetsRequest.send();
+    }
 
-  planetsRequest.open("GET", films[1].planets[1]);
-  planetsRequest.send();
-
-  });
+  }
+});
 filmsRequest.open("GET", "https://swapi.co/api/films/");
 filmsRequest.send();
 
